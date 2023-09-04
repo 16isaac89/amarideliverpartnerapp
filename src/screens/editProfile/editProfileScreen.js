@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, View, StatusBar, Image, TouchableOpacity, Dimensions, TextInput, SafeAreaView, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { Text, View, StatusBar, Image, TouchableOpacity, Dimensions, TextInput, SafeAreaView, StyleSheet,ActivityIndicator } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -8,59 +8,91 @@ import { Fonts, Colors, Sizes } from "../../constant/styles";
 import { Dialog } from "react-native-paper";
 import { BottomSheet } from '@rneui/themed';
 import ImagePicker from 'react-native-image-crop-picker';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
+import IntlPhoneInput from 'react-native-intl-phone-input';
 
 const { width } = Dimensions.get("screen");
 
-const EditProfileScreen = ({ navigation }) => {
+class EditProfileScreen extends Component {
+sendphonenumber = () =>{
+    let phone = this.props.phonenumber
+    let phonenumber2 = this.props.phonenumbercode.replace("+", "")+phone
+   let phone2 = phonenumber2.replace(" ", "")
+   if(phone === ''){
+    alert('Please input a phonenumber.')
+    return
+    // this.props.editphone(this.props.user.phone)
+   }else{
+    this.props.editphone(phone2)
+   }
+  
+}
+sendeditprofile = () =>{
 
-    const [fullNameDialog, setFullnameDialog] = useState(false);
-    const [fullName, setFullName] = useState('Ellison Perry');
-    const [changeText, setChangeText] = useState(fullName);
+    let email = this.props.email
+    let name = this.props.name
+    this.props.editprofile(email,name)
+}
+   openpicker=()=>{
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+          }).then(selectedImage => {
+            console.log(selectedImage);
+            const uri = selectedImage.path
+            let type = selectedImage.mime
+            let ext = type.replace("image/",'');
+       console.log(selectedImage,ext)
+            this.props.sendimage(uri,type,ext)
+          });
+    }
+ opencamera=()=>{
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+          }).then(image => {
+            let path =  image.path
+            this.props.sendimage(path)
+            //console.log(image);
+          });
+    }
+ 
 
-    const [passwordDialog, setPasswordDialog] = useState(false);
-    const [password, setPassword] = useState('123456');
-    const [changePassword, setChangePassword] = useState(password);
 
-    const [phoneDialog, setPhoneDialog] = useState(false);
-    const [phone, setPhone] = useState('123456789');
-    const [changePhone, setChangePhone] = useState(phone);
 
-    const [emialDialog, setEmailDialog] = useState(false);
-    const [email, setEmail] = useState('test@abc.com');
-    const [changeEmail, setChangeEmail] = useState(email);
-
-    const [isBottomSheet, setIsBottomSheet] = useState(false);
-
-    function backArrowAndSave() {
+  backArrowAndSave=() =>{
         return (
             <View style={styles.backArrowAndSaveContainerStyle}>
                 <Ionicons name="arrow-back-outline" size={24} color="black"
-                    onPress={() => navigation.pop()}
+                    onPress={() => this.props.navigation.goBack()}
                 />
 
-                <TouchableOpacity activeOpacity={0.9} onPress={() => navigation.pop()}>
+                <TouchableOpacity activeOpacity={0.9} onPress={() => this.props.navigation.navigate('editPassword')}>
                     <Text style={{ ...Fonts.blueColor17Regular }}>
-                        Save
+                        Edit Password
                     </Text>
                 </TouchableOpacity>
             </View>
         )
     }
 
-    function profilePhoto() {
+    profilePhoto=()=> {
         return (
             <View style={styles.profilePhotoWrapStyle}>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Image source={require('../../assets/images/user.jpg')}
+                    <Image source={require('../../assets/images/user.png')}
                         style={styles.profilePhotoStyle}
                         resizeMode="cover"
                     />
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         activeOpacity={0.9}
-                        onPress={() => setIsBottomSheet(true)}
+                        onPress={() => this.props.setIsBottomSheet()}
                         style={styles.addPhotoContainerStyle}>
-                        <Ionicons name="ios-add" size={20} color="white" />
-                    </TouchableOpacity>
+                        <Ionicons name="add" size={20} color="white" />
+                    </TouchableOpacity> */}
                 </View>
             </View>
         )
@@ -68,16 +100,16 @@ const EditProfileScreen = ({ navigation }) => {
 
 
 
-    function showBottomSheet() {
+    showBottomSheet=()=> {
         return (
             <BottomSheet
-                isVisible={isBottomSheet}
+                isVisible={this.props.isBottomSheet}
                 containerStyle={{ backgroundColor: 'rgba(0.5, 0.50, 0, 0.50)' }}
-                onBackdropPress={() => setIsBottomSheet(false)}
+                onBackdropPress={() => this.props.closeIsBottomSheet()}
             >
                 <TouchableOpacity
                     activeOpacity={0.9}
-                    onPress={() => setIsBottomSheet(false)}
+                    onPress={() => this.props.closeIsBottomSheet()}
                     style={styles.bottomSheetStyle}
                 >
 
@@ -85,31 +117,31 @@ const EditProfileScreen = ({ navigation }) => {
                         Choose Option
                     </Text>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name="ios-camera" size={20} color="#4C4C4C" />
+                    <TouchableOpacity onPress={()=>this.opencamera()} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Ionicons name="camera" size={20} color="#4C4C4C" />
                         <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
                             Camera
                         </Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={{ flexDirection: 'row', marginTop: Sizes.fixPadding * 2.0 }}>
+                    <TouchableOpacity onPress={()=>this.openpicker()} style={{ flexDirection: 'row', marginTop: Sizes.fixPadding * 2.0 }}>
                         <MaterialIcons name="photo-album" size={20} color="#4C4C4C" />
                         <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
                             Upload from Gallery
                         </Text>
-                    </View>
-
+                    </TouchableOpacity>
+                   {this.props.loader === true && <ActivityIndicator size="large" color="#00ff00" />} 
                 </TouchableOpacity>
             </BottomSheet>
         )
     }
-
+render(){
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
             <StatusBar backgroundColor={Colors.primaryColor} />
             <View style={{ flex: 1 }}>
-                {backArrowAndSave()}
-                {profilePhoto()}
+                {this.backArrowAndSave()}
+                {this.profilePhoto()}
                 <View style={{
                     backgroundColor: 'white', alignItems: 'center',
                 }}>
@@ -118,8 +150,8 @@ const EditProfileScreen = ({ navigation }) => {
                             Name
                         </Text>
                         <TextInput
-                            value={changeText}
-                            onChangeText={(value) => setChangeText(value)}
+                            value={this.props.name}
+                            onChangeText={(value) => this.props.businessnamechanged(value)}
                             selectionColor={Colors.primaryColor}
                             style={{ ...Fonts.blackColor19Regular, paddingBottom: Sizes.fixPadding }}
                         />
@@ -129,51 +161,70 @@ const EditProfileScreen = ({ navigation }) => {
                             Email
                         </Text>
                         <TextInput
-                            value={changeText}
-                            onChangeText={(value) => setChangeText(value)}
-                            selectionColor={Colors.primaryColor}
-                            style={{ ...Fonts.blackColor19Regular, paddingBottom: Sizes.fixPadding }}
-                        />
-                    </View>
-                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 0.50, width: '60%',margin:10 }}>
-                    <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
-                           Phone
-                        </Text>
-                        <TextInput
-                            value={changeText}
-                            onChangeText={(value) => setChangeText(value)}
-                            selectionColor={Colors.primaryColor}
-                            style={{ ...Fonts.blackColor19Regular, paddingBottom: Sizes.fixPadding }}
-                        />
-                    </View>
-                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 0.50, width: '60%' }}>
-                    <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
-                            Address
-                        </Text>
-                        <TextInput
-                            value={changeText}
-                            onChangeText={(value) => setChangeText(value)}
+                           value={this.props.email}
+                            onChangeText={(value) => this.props.emailchanged(value)}
                             selectionColor={Colors.primaryColor}
                             style={{ ...Fonts.blackColor19Regular, paddingBottom: Sizes.fixPadding }}
                         />
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: Sizes.fixPadding * 2.0 }}>
-                        <TouchableOpacity activeOpacity={0.9} onPress={() => {
-                            setEmailDialog(false)
-                            setEmail(changeEmail)
-                        }
-                        }
+                        <TouchableOpacity activeOpacity={0.9} 
+                        onPress={()=>this.sendeditprofile()}
                             style={styles.okButtonStyle}
                         >
-                            <Text style={{ ...Fonts.whiteColor19Regular }}>Edit Profile</Text>
+                             {this.props.loader === true ? <ActivityIndicator size="large" color="#00ff00" /> :  <Text style={{ ...Fonts.whiteColor19Regular }}>Edit Profile</Text>}
+                           
+                        </TouchableOpacity>
+                    </View>
+
+
+
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 0.50, width: '60%',margin:10 }}>
+                    <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
+                           Phone({this.props.user.phone})
+                        </Text>
+                        <IntlPhoneInput
+                    onChangeText={({unmaskedPhoneNumber,phoneNumber,dialCode }) =>{
+                      this.props.phonenumberchanged(phoneNumber,dialCode)
+                  } }
+                   
+                    defaultCountry="UG"
+                    containerStyle={styles.mobileNumberWrapStyle}
+                    dialCodeTextStyle={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding - 5.0 }}
+                    placeholder="Mobile Number"
+                    phoneInputStyle={styles.mobileNumberFieldStyle}
+                />
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: Sizes.fixPadding * 2.0 }}>
+                        <TouchableOpacity activeOpacity={0.9} 
+                        onPress={()=>this.sendphonenumber()}
+                            style={styles.okButtonStyle}
+                        >
+                             {this.props.loader === true ? <ActivityIndicator size="large" color="#00ff00" /> :  <Text style={{ ...Fonts.whiteColor19Regular }}>Edit PhoneNumber</Text>}
+                           
                         </TouchableOpacity>
                     </View>
                 </View>
-                {showBottomSheet()}
+                {this.showBottomSheet()}
             </View>
         </SafeAreaView>
     )
+            }
 }
+
+function mapStateToProps( state ) {
+    return { 
+     isBottomSheet:state.auth.bottomsheet,
+  loader:state.auth.regloader,
+  name:state.auth.businessname  || state.auth.user.name,
+  phonenumber:state.auth.phonenumber,
+  phonenumbercode:state.auth.phonenumbercode,
+  email:state.auth.email || state.auth.user.email,
+  user:state.auth.user
+    };
+  }
+  
+  export default connect(mapStateToProps, actions)(EditProfileScreen);
 
 const styles = StyleSheet.create({
     backArrowAndSaveContainerStyle: {
@@ -259,4 +310,3 @@ const styles = StyleSheet.create({
     }
 })
 
-export default EditProfileScreen;

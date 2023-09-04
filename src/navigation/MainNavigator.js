@@ -30,6 +30,7 @@ import Autocomplete from '../components/geolocation/Autocomplete';
 import MapPicker from '../components/map/MapPicker';
 import PackageInfoTwo from '../screens/packageInfo/PackageInfoTwo';
 import PackageInfoThree from '../screens/packageInfo/PackageInfoThree'
+import editPassword from '../screens/editProfile/editPassword';
 
 LogBox.ignoreAllLogs();
 
@@ -100,6 +101,12 @@ class MainNavigator extends Component {
         options={{
           headerShown:true,
           title: 'Select Vehicle',
+        }}
+        />
+          <Stack.Screen name="editPassword" component={editPassword} 
+        options={{
+          headerShown:true,
+          title: 'Edit Password',
         }}
         />
         </>

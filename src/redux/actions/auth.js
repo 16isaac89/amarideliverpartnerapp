@@ -13,7 +13,10 @@ import {
     SET_APP_STATE,
    C_PASSWORD_CHANGED,
    TOKEN_SENT,
-   
+   PROFILE_EDITED,
+   OPEN_PROFILE_BOTTOMSHEET,
+   CLOSE_PROFILE_BOTTOMSHEET,
+   OLD_PASSWORD
  } from '../actions/types';
  import axios from "axios"
  import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,6 +47,11 @@ export const passwordChanged = (text) =>{
 dispatch({type:PASSWORD_CHANGED,payload:text})
     }
 }
+export const oldpasswordChanged = (text) =>{
+    return async(dispatch)=>{
+dispatch({type:OLD_PASSWORD,payload:text})
+    }
+}
 export const cpasswordChanged = (text) =>{
     return async(dispatch)=>{
 dispatch({type:C_PASSWORD_CHANGED,payload:text})
@@ -62,6 +70,17 @@ export const setcountrycode = (text) =>{
 export const setappstate = (state) =>{
     return(dispatch)=>{
 dispatch({type:SET_APP_STATE,payload:state})
+    }
+}
+
+export const setIsBottomSheet = (state) =>{
+    return(dispatch)=>{
+dispatch({type:OPEN_PROFILE_BOTTOMSHEET})
+    }
+}
+export const closeIsBottomSheet = (state) =>{
+    return(dispatch)=>{
+dispatch({type:CLOSE_PROFILE_BOTTOMSHEET})
     }
 }
 export const logout = () =>{
@@ -97,11 +116,11 @@ export const loginuser = (username,password) =>{
                     .catch(function (error) {
                         console.log(error)
                          console.log("error.response.data")
-                        // console.log(error.response.data)
+                         alert(error.response.data.message)
                         // console.log(error.response.status)
-                        // if(error.response.datastatus === 422){
-                        //     alert(error.response.data.message)
-                        // }
+                        if(error.response.datastatus === 422){
+                            alert(error.response.data.message)
+                        }
                         dispatch({type:AUTHLOADER_OFF})
                     })
                    
@@ -185,3 +204,121 @@ export const sendfcmtoken=() =>{
         }
     } 
   }
+
+
+  export const editprofile=(phone,email,name) =>{
+    // Register the device with FCM
+    return async(dispatch)=>{
+        dispatch({type:AUTH_LOADER})
+        let userdata = await AsyncStorage.getItem('userdata');
+        if(userdata){
+         let user = JSON.parse(userdata)
+         axios.post(ROOT_URL+"/partner/change/profiledata", {
+            id:user.id,
+           // phone:phone,
+            email:email,
+            name:name
+          })
+              .then( async(response)  => {
+                let user = response.data.user
+                console.log(user)
+                await AsyncStorage.setItem('userdata', JSON.stringify(user))
+                 dispatch({type:PROFILE_EDITED,payload:user})
+                alert(response.data.message)
+              })
+              .catch(function (error) {
+               console.log(error.response) 
+                dispatch({type:AUTHLOADER_OFF})
+              })
+        }
+    } 
+  }
+
+
+  export const sendimage=(uri,type,ext) =>{
+    // Register the device with FCM
+    return async(dispatch)=>{
+        dispatch({type:AUTH_LOADER})
+        let userdata = await AsyncStorage.getItem('userdata');
+        if(userdata){
+         let user = JSON.parse(userdata)
+         const data = new FormData();
+
+        data.append("image", {
+            uri,
+            name: `image.${ext}`,
+            type,
+        });
+       data.append("id", user.id);
+console.log(data,data.image,uri,ext,type)
+         axios.post(ROOT_URL+"/partner/change/profile", data,{
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+              .then( async(response)  => {
+                let user = response.data.user
+                await AsyncStorage.setItem('userdata', JSON.stringify(user))
+                 dispatch({type:PROFILE_EDITED,payload:user})
+                alert('s')
+              })
+              .catch(function (error) {
+               console.log(error.response) 
+                dispatch({type:AUTHLOADER_OFF})
+                alert('f')
+              })
+        }
+    } 
+  }
+
+
+  export const editphone=(phone) =>{
+    // Register the device with FCM
+    return async(dispatch)=>{
+        dispatch({type:AUTH_LOADER})
+        let userdata = await AsyncStorage.getItem('userdata');
+        if(userdata){
+         let user = JSON.parse(userdata)
+         axios.post(ROOT_URL+"/partner/change/profilephone", {
+            id:user.id,
+            phone:phone,
+          })
+              .then( async(response)  => {
+                let user = response.data.user
+                //console.log(user)
+                await AsyncStorage.setItem('userdata', JSON.stringify(user))
+                 dispatch({type:PROFILE_EDITED,payload:user})
+                alert(response.data.message)
+              })
+              .catch(function (error) {
+               console.log(error.response) 
+                dispatch({type:AUTHLOADER_OFF})
+              })
+        }
+    } 
+  }
+
+
+  export const editpassword=(password,old) =>{
+    // Register the device with FCM
+    return async(dispatch)=>{
+        dispatch({type:AUTH_LOADER})
+        let userdata = await AsyncStorage.getItem('userdata');
+        if(userdata){
+         let user = JSON.parse(userdata)
+         axios.post(ROOT_URL+"/partner/change/password", {
+            id:user.id,
+            password:password,
+            old:old
+          })
+              .then( async(response)  => {
+               dispatch({type:AUTHLOADER_OFF})
+                alert(response.data.message)
+              })
+              .catch(function (error) {
+               console.log(error.response) 
+                dispatch({type:AUTHLOADER_OFF})
+              })
+        }
+    } 
+  }
+
+  

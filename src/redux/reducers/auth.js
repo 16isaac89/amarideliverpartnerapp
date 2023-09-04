@@ -15,8 +15,12 @@ import {
     SET_COUNTRY_CODE,
     C_PASSWORD_CHANGED,
     SET_APP_STATE,
-   
+    PROFILE_EDITED,
+    OPEN_PROFILE_BOTTOMSHEET,
+    CLOSE_PROFILE_BOTTOMSHEET,
+    OLD_PASSWORD
  } from '../actions/types';
+import { bottomsheet } from '../actions';
  
  const INITIAL_STATE = {
    password:'',
@@ -35,7 +39,9 @@ import {
    newversion:"0.1",
    appvermodal:false,
    phonenumbercode:'+256',
-  
+  imageurl:'',
+  bottomsheet:false,
+  oldpassword:''
  };
  
  export default function(state = INITIAL_STATE, action) {
@@ -44,6 +50,8 @@ import {
          return{...state, password:action.payload}
      case LOGIN_SUCCESS:
        return{...state, user:action.payload,loggedin:true,regloader:false}
+      case PROFILE_EDITED:
+        return{...state, user:action.payload,regloader:false,bottomsheet:false}
     case AUTH_LOADER:
      return{...state, regloader:true}
      case LOG_OUT:
@@ -66,7 +74,12 @@ import {
       return{...state,confirmpwd:action.payload}
     case SET_APP_STATE:
       return{...state,appstate:action.payload}
-   
+ case OPEN_PROFILE_BOTTOMSHEET:
+  return{...state,bottomsheet:true}
+case CLOSE_PROFILE_BOTTOMSHEET:
+  return{...state,bottomsheet:false}
+case OLD_PASSWORD:
+  return{...state,oldpassword:action.payload}
      default:
        return state;
    }

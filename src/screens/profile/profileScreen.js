@@ -107,7 +107,7 @@ class profileScreen extends Component {
                 style={styles.userInfoWrapStyle}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
-                        source={require('../../assets/images/user.jpg')}
+                        source={require('../../assets/images/user.png')}
                         style={{
                             width: 80.0, height: 80.0,
                             borderRadius: Sizes.fixPadding - 5.0,
@@ -119,10 +119,10 @@ class profileScreen extends Component {
                             ...Fonts.blackColor17Medium,
                             width: width / 2.3,
                         }}>
-                            Ellison Perry
+                            {this.props.user.name}
                         </Text>
                         <Text style={{ ...Fonts.grayColor16Medium }}>
-                            123456789
+                        {this.props.user.phone || ''}
                         </Text>
                     </View>
                 </View>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps( state ) {
     return { 
-     
+     user:state.auth.user
   
     };
   }
