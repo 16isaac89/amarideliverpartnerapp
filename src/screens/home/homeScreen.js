@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity, Share } from "react-native";
 import { Colors, Fonts, Sizes } from "../../constant/styles";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -93,12 +93,33 @@ const HomeScreen = ({ navigation }) => {
             </View>
         )
     }
+    async function onShare(){
+        try {
+          const result = await Share.share({
+            title: 'App link',
+            message: 'Message + link: https://sparc.world', 
+            url: 'https://sparc.world'
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          Alert.alert(error.message);
+        }
+      };
 
     function inviteFriendsInfo() {
         return (
             <TouchableOpacity
                 activeOpacity={0.9}
-                onPress={() => navigation.push('InviteFriends')}
+                onPress={onShare}
+                //onPress={() => navigation.push('InviteFriends')}
                 style={styles.inviteFriendsInfoWrapStyle}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
@@ -113,7 +134,7 @@ const HomeScreen = ({ navigation }) => {
                             width: width / 1.5,
                             marginLeft: Sizes.fixPadding + 5.0
                         }}>
-                        Invite friends to Courier Pro to earn upto $20 Courier Pro Cash
+                        Invite friends to AmariHitch Delivery to enjoy affordable rates
                     </Text>
                 </View>
                 <MaterialIcons name="arrow-forward-ios" size={20} color={Colors.grayColor} />
@@ -135,7 +156,7 @@ const HomeScreen = ({ navigation }) => {
         return (
             <View style={styles.headerWrapStyle}>
                 <Text style={{ ...Fonts.primaryColor19Medium }}>
-                    Welcome to AmariHitch Delivery
+                AmariHitch Delivery
                 </Text>
                 <MaterialIcons name="person" size={24} color={Colors.primaryColor}
                     onPress={() => navigation.push('Profile')}

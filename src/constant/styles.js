@@ -103,7 +103,7 @@ export const Fonts = {
     },
 
     grayColor17Medium: {
-        color: '#9E9E9E',
+        color: 'black',
         fontSize: 17.0,
         fontFamily: 'Mukta_Medium',
     },

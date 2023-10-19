@@ -29,7 +29,8 @@ requestUserPermission()
 
 async function onMessageReceived(message) {
   await notifee.requestPermission()
-
+// console.log(message)
+// return
   // Create a channel (required for Android)
   const channelId = await notifee.createChannel({
     id: 'default',

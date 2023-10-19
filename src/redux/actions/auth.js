@@ -16,7 +16,8 @@ import {
    PROFILE_EDITED,
    OPEN_PROFILE_BOTTOMSHEET,
    CLOSE_PROFILE_BOTTOMSHEET,
-   OLD_PASSWORD
+   OLD_PASSWORD,
+   PLAIN_TEXT_PASSSWORD
  } from '../actions/types';
  import axios from "axios"
  import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,6 +28,11 @@ const ROOT_URL = commonurl;
 export const emailchanged = (text) =>{
     return async(dispatch)=>{
         dispatch({type:EMAIL_CHANGED,payload:text})
+            }
+}
+export const plaintext = (text) =>{
+    return async(dispatch)=>{
+        dispatch({type:PLAIN_TEXT_PASSSWORD,payload:text})
             }
 }
 export const phonenumberchanged = (number,code) =>{
@@ -108,7 +114,7 @@ export const loginuser = (username,password) =>{
                             await AsyncStorage.setItem('userdata', JSON.stringify(user))
                             dispatch({type:LOGIN_SUCCESS,payload:user})
                         }else{
-                            dispatch({type:AUTHLOADER_OFF})
+                            dispatch({type:AUTHLOADER_OFF}) 
                             alert(response.data.message)
                         }
                        
@@ -320,5 +326,28 @@ console.log(data,data.image,uri,ext,type)
         }
     } 
   }
+
+  export const forgotpassword=(email) =>{
+    // Register the device with FCM
+    return async(dispatch)=>{
+        dispatch({type:AUTH_LOADER})
+         axios.post(ROOT_URL+"/partner/forgot/password", {
+            email
+          })
+              .then( async(response)  => {
+                dispatch({type:AUTHLOADER_OFF})
+                alert('Please check your email address '+email)
+              })
+              .catch(function (error) {
+            console.log(error.response.data)
+                dispatch({type:AUTHLOADER_OFF})
+                alert('The email address is not registered with any account.')
+                //let errors = error.response.data.error
+                        // {Object.keys(errors).map((error, index) => (
+                        //         alert(errors[error][0])
+                        // ))}
+              })
+        }
+    } 
 
   

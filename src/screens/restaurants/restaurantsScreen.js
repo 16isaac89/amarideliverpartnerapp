@@ -9,7 +9,7 @@ const { width } = Dimensions.get('screen');
 const restaurantsList = [
     {
         id: '1',
-        image: require('../../assets/images/restaurant/restaurant_5.png'),
+        
         name: 'Bar 61 Restaurant',
         foodType: 'Beverages, Snacks',
         place: '76A England',
@@ -20,7 +20,7 @@ const restaurantsList = [
     },
     {
         id: '2',
-        image: require('../../assets/images/restaurant/restaurant_4.png'),
+        
         name: 'Core by Clare Smyth',
         foodType: 'Beverages, Fast Food',
         place: '220 Opera Street',
@@ -30,7 +30,6 @@ const restaurantsList = [
     },
     {
         id: '3',
-        image: require('../../assets/images/restaurant/restaurant_3.png'),
         name: 'Amrutha Lounge',
         foodType: 'Full Meal',
         place: '90B Silicon Velley',
@@ -41,7 +40,7 @@ const restaurantsList = [
     },
     {
         id: '4',
-        image: require('../../assets/images/restaurant/restaurant_2.png'),
+       
         name: 'The Barbary',
         foodType: 'Desserts',
         place: '99C OBC Area',
@@ -52,7 +51,7 @@ const restaurantsList = [
     },
     {
         id: '5',
-        image: require('../../assets/images/restaurant/restaurant_1.png'),
+        
         name: 'The Palomar',
         foodType: 'American Fastfood',
         place: '31A Om Colony',
@@ -81,11 +80,7 @@ const RestaurantsScreen = ({ navigation }) => {
                 activeOpacity={0.9}
                 onPress={() => navigation.push('RestaurantDetail')}
                 style={styles.restaurantDetailWrapStyle}>
-                <Image
-                    source={item.image}
-                    style={{ height: 110.0, width: 110.0 }}
-                    resizeMode="cover"
-                />
+               
                 <View style={{
                     marginLeft: Sizes.fixPadding,
                     width: width - 200,

@@ -6,6 +6,7 @@ import {
     StatusBar,
     StyleSheet,
     TouchableOpacity,
+    KeyboardAvoidingView,
 } from "react-native";
 import { Colors, Sizes, Fonts } from "../../constant/styles";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -51,7 +52,7 @@ render(){
      continueButton=()=> {
         
             if(this.props.regloader === true) {
-                <Flow size={68} color="gold" style={{ alignSelf:'center' }}/>
+                return <Flow size={68} color="green" style={{ alignSelf:'center' }}/>
             }else{
             return <TouchableOpacity
                 activeOpacity={0.9}
@@ -89,8 +90,8 @@ render(){
                     phoneInputStyle={styles.mobileNumberFieldStyle}
                 />
             </View>
-            <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, marginTop: Sizes.fixPadding * 4.0 }}>
-                <Text style={{ ...Fonts.grayColor17Medium }}>
+            <KeyboardAvoidingView style={{ marginHorizontal: Sizes.fixPadding * 2.0, marginTop: Sizes.fixPadding * 2.0 }}>
+            <Text style={{ ...Fonts.grayColor17Medium }}>
                     Password
                 </Text>
             <InputField
@@ -104,11 +105,33 @@ render(){
             />
             }
             inputType="password"
-            fieldButtonLabel={"Forgot?"}
-            fieldButtonFunction={() => {}}
+            secureTextEntry={this.props.viewplaintext}
+            fieldButtonLabel={this.props.viewplaintext == true ? <Ionicons name="eye-off" size={25} color={'black'}/> :<Ionicons name="eye" size={25} color={'black'}/>}
+            fieldButtonFunction={() => {
+                if(this.props.viewplaintext == true){
+                     this.props.plaintext(false)
+                }else{
+                    this.props.plaintext(true)
+                }
+
+            }}
             value={this.props.password}
             onChangeText={(text) => this.props.passwordChanged(text)}
           />
+          </KeyboardAvoidingView>
+            <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, marginTop: Sizes.fixPadding * 4.0 }}>
+            
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginBottom: 30,
+          }}>
+          <Text>Forgot Password ?</Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Forgot')}>
+            <Text style={{color: '#D7BE69', fontWeight: '700'}}> Forgot</Text>
+          </TouchableOpacity>
+        </View>
 
 <View
           style={{
@@ -117,7 +140,7 @@ render(){
             marginBottom: 30,
           }}>
           <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterScreen')}>
             <Text style={{color: '#D7BE69', fontWeight: '700'}}> Register</Text>
           </TouchableOpacity>
         </View>
@@ -147,7 +170,7 @@ render(){
         return (
             <MaterialIcons name="arrow-back" size={24} color="black"
                 style={{ margin: Sizes.fixPadding * 2.0 }}
-                onPress={() => navigation.goBack()}
+                onPress={() => this.props.navigation.goBack()}
             />
         )
     }
@@ -186,7 +209,8 @@ function mapStateToProps( state ) {
       password:state.auth.password,
       phonenumber:state.auth.phonenumber,
       phonenumbercode:state.auth.phonenumbercode,
-      regloader:state.auth.regloader
+      regloader:state.auth.regloader,
+      viewplaintext:state.auth.viewplaintext
   
     };
   }

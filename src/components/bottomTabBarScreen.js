@@ -62,22 +62,23 @@ const BottomTabBarScreen = ({ navigation }) => {
                                 <WalletScreen navigation={navigation} />
                 }
                 <View style={styles.bottomTabBarStyle}>
-                    {bottomTabBarItem({
-                        index: 1,
-                        title: 'Home'
-                    })}
-                    {bottomTabBarItem({
-                        index: 2,
-                        title: 'Search'
-                    })}
-                    {bottomTabBarItem({
+                {bottomTabBarItem({
                         index: 3,
                         title: 'Orders'
                     })}
                     {bottomTabBarItem({
+                        index: 1,
+                        title: 'Home'
+                    })}
+                    {/* {bottomTabBarItem({
+                        index: 2,
+                        title: 'Search'
+                    })} */}
+                   
+                    {/* {bottomTabBarItem({
                         index: 4,
                         title: 'Notifications'
-                    })}
+                    })} */}
                     {bottomTabBarItem({
                         index: 5,
                         title: 'Wallet'
@@ -106,9 +107,12 @@ const BottomTabBarScreen = ({ navigation }) => {
                 onPress={() => updateState({ currentIndex: index })}
             >
                 {index == 1 ?
-                    <MaterialCommunityIcons name="home" size={24}
+                <View style={{width: 70, height: 70,borderColor:'black',borderWidth:0.9,borderRadius:35,bottom:'25%'}}>                    
+                    <MaterialCommunityIcons name="home" size={64}
                         color={index == currentIndex ? Colors.primaryColor : Colors.grayColor}
+                        style={{ alignSelf:'center' }}
                     />
+                    </View>
                     :
                     index == 2 ?
                         <MaterialIcons name="search" size={24}

@@ -18,7 +18,8 @@ import {
     PROFILE_EDITED,
     OPEN_PROFILE_BOTTOMSHEET,
     CLOSE_PROFILE_BOTTOMSHEET,
-    OLD_PASSWORD
+    OLD_PASSWORD,
+    PLAIN_TEXT_PASSSWORD
  } from '../actions/types';
 import { bottomsheet } from '../actions';
  
@@ -41,7 +42,8 @@ import { bottomsheet } from '../actions';
    phonenumbercode:'+256',
   imageurl:'',
   bottomsheet:false,
-  oldpassword:''
+  oldpassword:'',
+  viewplaintext:false
  };
  
  export default function(state = INITIAL_STATE, action) {
@@ -80,6 +82,8 @@ case CLOSE_PROFILE_BOTTOMSHEET:
   return{...state,bottomsheet:false}
 case OLD_PASSWORD:
   return{...state,oldpassword:action.payload}
+case PLAIN_TEXT_PASSSWORD:
+  return{...state,viewplaintext:action.payload}
      default:
        return state;
    }

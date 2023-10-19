@@ -9,7 +9,9 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView,
+    Platform
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../../constant/styles";
 import { connect } from 'react-redux';
@@ -46,8 +48,9 @@ class PackageInfoTwo extends Component {
     }
    
     render() {
+        const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
         return (
-            <View style={{ flex: 1 }}>
+            <KeyboardAvoidingView style={{ flex: 1 }}  behavior={Platform.OS == "ios" ? "padding" : "height"} keyboardVerticalOffset={keyboardVerticalOffset}>
             <View
             style={{
                 marginHorizontal: Sizes.fixPadding * 2.0,
@@ -84,7 +87,7 @@ class PackageInfoTwo extends Component {
                     value={this.props.description}
                     selectionColor={Colors.primaryColor}
                     onChangeText={(text)=>{this.props.descriptionchanged(text)}}
-                    numberOfLines={4}
+                    numberOfLines={2}
                     multiline={true}
                     style={{ borderWidth:1,borderRadius:8 }}
                 />
@@ -134,8 +137,15 @@ class PackageInfoTwo extends Component {
                     Enter width in cm
                 </Text> */}
             </View>
-            {this.packageTypeContinueButton()}
-        </View>
+            <View
+            style={{
+                marginHorizontal: Sizes.fixPadding * 2.0,
+                marginTop: Sizes.fixPadding + 10.0,
+            }}>
+                {this.packageTypeContinueButton()}
+            </View>
+            
+        </KeyboardAvoidingView>
         )
     }
 }
@@ -174,12 +184,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     packageTypeContinueButtonStyle: {
-        position: 'absolute',
-        bottom: 20.0,
-        right: 20.0,
+        bottom: 0,
+        right: 0,
         paddingHorizontal: Sizes.fixPadding * 5.0,
         paddingVertical: Sizes.fixPadding - 4.0,
         borderRadius: Sizes.fixPadding * 2.2,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center'
     },
     packageDetailHeaderWrapStyle: {
         backgroundColor: Colors.whiteColor,

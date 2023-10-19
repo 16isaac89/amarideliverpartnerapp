@@ -62,7 +62,7 @@ const WelcomeScreen = ({ navigation }) => {
         return (
             <View style={styles.getStartedInfoWrapStyle}>
                 <Text style={{ ...Fonts.blackColor20Medium }}>
-                    Get started with CourierPro
+                    Get started with AmariHitchDelivery
                 </Text>
                 <TouchableOpacity
                     activeOpacity={0.9}
@@ -96,14 +96,14 @@ const WelcomeScreen = ({ navigation }) => {
                     {
                         icon: require('../../assets/images/icons/courier.png'),
                         title: 'Send Packages',
-                        description: 'Pick and drop items like keys,chargers and documents in the city',
+                        description: 'Pick and drop items like keys,chargers and documents around your city city',
                     }
                 )}
                 {functionalities(
                     {
                         icon: require('../../assets/images/icons/food.png'),
                         title: 'Receive Package',
-                        description: 'Order food from your favourite restaurant and we will deliver it',
+                        description: 'Receive packages from anyone around your city.',
                     }
                 )}
                 

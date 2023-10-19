@@ -31,7 +31,7 @@ import MapPicker from '../components/map/MapPicker';
 import PackageInfoTwo from '../screens/packageInfo/PackageInfoTwo';
 import PackageInfoThree from '../screens/packageInfo/PackageInfoThree'
 import editPassword from '../screens/editProfile/editPassword';
-
+import Forgot from '../screens/auth/Forgot';
 LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
@@ -56,6 +56,12 @@ class MainNavigator extends Component {
         <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="Verification" component={VerificationScreen} />
+        <Stack.Screen name="Forgot" component={Forgot} 
+        options={{
+          headerShown:true,
+          title: 'Forgot Password',
+        }}
+        />
         </>
            )
         :(
@@ -109,6 +115,7 @@ class MainNavigator extends Component {
           title: 'Edit Password',
         }}
         />
+       
         </>
         )
   }

@@ -20,9 +20,9 @@ const deliveryMarker = {
     longitude: -122.4424,
 };
 class TrackOrderScreen extends Component {
-componentDidMount(){
-    console.log(this.props.orderselect.driver.media)
-}
+// componentDidMount(){
+//     console.log(this.props.orderselect.driver.media)
+// }
     
 render(){
     return (
@@ -235,7 +235,7 @@ render(){
         return (
             <View style={styles.headerWrapStyle}>
                 <MaterialIcons name="arrow-back" size={24} color="black"
-                    onPress={() => navigation.goBack()}
+                    onPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ marginLeft: Sizes.fixPadding * 2.0 }}>
                     <Text style={{ ...Fonts.blackColor19Medium }}>

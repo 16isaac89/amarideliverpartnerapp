@@ -28,7 +28,7 @@ const WalletScreen = ({ navigation }) => {
                 padding: Sizes.fixPadding * 2.0,
                 marginTop: Sizes.fixPadding,
             }}>
-                <View style={{ alignItems: 'center', }}>
+                {/* <View style={{ alignItems: 'center', }}>
                     <Text style={{ ...Fonts.blackColor17Regular }}>
                         Your Referral Code
                     </Text>
@@ -41,8 +41,8 @@ const WalletScreen = ({ navigation }) => {
                         </Text>
                         <MaterialIcons name="content-copy" size={25} color={Colors.primaryColor} />
                     </View>
-                </View>
-                <View style={styles.shareOptionsWrapStyle}>
+                </View> */}
+                {/* <View style={styles.shareOptionsWrapStyle}>
                     <View style={styles.shareWithWhatsAppWrapStyle}>
                         <Text style={{ ...Fonts.whiteColor19Regular }}>
                             Whatsapp
@@ -55,24 +55,25 @@ const WalletScreen = ({ navigation }) => {
                         </Text>
                         <MaterialIcons name="share" size={24} color="black" />
                     </View>
-                </View>
+                </View> */}
             </View>
         )
     }
 
     function shareCodeInfo() {
         return (
-            <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, marginVertical: Sizes.fixPadding * 2.0 }}>
-                <Text style={{ ...Fonts.blackColor20Medium, marginBottom: Sizes.fixPadding - 5.0 }}>
-                    Share Code & save at least 25%
-                </Text>
-                <Text style={{
-                    ...Fonts.grayColor16Medium, textAlign: 'justify',
-                    lineHeight: 22.0,
-                }}>
-                    Your friend gets $15 TravelPro cash on sign up.You get $15 when they book trip or experience of $75 or more within 21 days.you can earn upto $200 TravelPro Cash.
-                </Text>
-            </View>
+            <View></View>
+            // <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, marginVertical: Sizes.fixPadding * 2.0 }}>
+            //     <Text style={{ ...Fonts.blackColor20Medium, marginBottom: Sizes.fixPadding - 5.0 }}>
+            //         Share Code & save at least 25%
+            //     </Text>
+            //     <Text style={{
+            //         ...Fonts.grayColor16Medium, textAlign: 'justify',
+            //         lineHeight: 22.0,
+            //     }}>
+            //         Your friend gets $15 TravelPro cash on sign up.You get $15 when they book trip or experience of $75 or more within 21 days.you can earn upto $200 TravelPro Cash.
+            //     </Text>
+            // </View>
         )
     }
 
@@ -89,7 +90,7 @@ const WalletScreen = ({ navigation }) => {
                         paddingTop: Sizes.fixPadding * 2.0,
                     }}
                 >
-                    $15
+                    Coming Soon
                 </Text>
                 <Image
                     source={require('../../assets/images/coin.png')}
@@ -104,7 +105,7 @@ const WalletScreen = ({ navigation }) => {
         return (
             <View style={styles.headerWrapStyle}>
                 <Text style={{ ...Fonts.blackColor19Medium, marginLeft: Sizes.fixPadding }}>
-                    CourierPro Cash
+                    AmariHitch Wallet
                 </Text>
             </View>
         )

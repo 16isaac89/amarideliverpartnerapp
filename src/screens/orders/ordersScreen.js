@@ -40,12 +40,20 @@ this.props.getorders(id)
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: Sizes.fixPadding * 6.0 }}
                 >
+                    {
+                        this.props.orders.length > 0 ?
                     <FlatList
                     data={this.props.orders}
                     renderItem={({item})=>this.activeOrders(item)}
                     keyExtractor={item=>item.id.toString()}
                     
                     />
+                    :
+                    <View style={{ alignItems:'center',top:'50%',flexDirection:'column' }}>
+                    <MaterialCommunityIcons name="archive-cancel" size={55} color="black" />
+                    <Text style={{ fontSize:20,fontWeight:'bold' }}>No Orders Found</Text>
+                    </View>
+    }
 
                 </ScrollView>
             </View>
@@ -71,11 +79,11 @@ this.props.getorders(id)
                         </Text>
                     </View>
 
-                    <View style={styles.reorderButtonStyle}>
+                    {/* <View style={styles.reorderButtonStyle}>
                         <Text style={{ ...Fonts.whiteColor19Regular }}>
                             Reorder
                         </Text>
-                    </View>
+                    </View> */}
                 </View>
             )
         }else if(status === 'canceled'){
